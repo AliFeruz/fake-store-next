@@ -17,46 +17,46 @@ const ProductCard = ({ product }: Props) => {
 
   return (
     <div
-      data-aos="fade-left"
+      // data-aos="fade-left"
       className="flex flex-col 
-      cursor-pointer bg-purple-100/95 p-5 items-center 
-      rounded-lg shadow-lg shadow-indigo-500/50 relative h-[500px]"
+      cursor-pointer bg-slate-950 p-5 items-center w-full
+      rounded-lg border border-indigo-500/50 relative h-[500px]"
     >
-      <div className="absolute top-0 right-2">
+      {/* <div className="absolute top-0 right-2">
         <BookmarkIcon className="w-10 h-10 fill-purple-500"/>
-      </div>
-     <div className="flex flex-col bg-white rounded-md items-center justify-center p-2">
+      </div> */}
+     <div className="flex flex-col bg-white rounded-md w-full items-center justify-center p-2">
      <Image
-        data-aos="flip-right"
+        
         src={product.image}
         alt={product.title}
         width={200}
         height={200}
         className="w-[282px] 
-        h-[282px] object-contain rounded-md"
+        h-[282px] object-contain rounded-md bg-white"
       />
      
      </div>
-      <div className="text-center">
+      <div className="text-center bg-slate-950">
       <h3
-          data-aos="fade-up"
-          className="mt-4 text-base text-center font-medium"
+          // data-aos="fade-up"
+          className="mt-6 text-base text-center font-medium bg-slate-950"
         >
           {product.title}
         </h3>
         <div className="flex absolute w-full px-4 bottom-2 left-0 items-center justify-between">
-        <div className="flex justify-between w-full items-center space-x-3">
+        <div className="flex justify-between w-full items-center md:space-x-3 bg-slate-950">
           <p
-            className="text-sm leading-normal flex items-center text-slate-950 gap-1"
+            className="text-sm leading-normal flex items-center gap-1"
           >
-            <StarIcon width={24} height={24} className="text-yellow-600 fill-yellow-400"/>
+            <StarIcon width={24} height={24} className="text-yellow-500 fill-yellow-600"/>
             {product.rating.rate}    
           </p>
           <p
-          className="font-semibold font-montserrat 
-        text-purple-600 text-2xl leading-normal"
+          className="font-semibold 
+        text-purple-400 text-2xl leading-normal"
         >
-          {product.price} <span className="text-black">$</span>
+          {product.price} <span className="text-gray-400">$</span>
         </p>
         </div>
        

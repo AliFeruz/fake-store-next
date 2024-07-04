@@ -22,7 +22,7 @@ const Navbar = () => {
 
   return (
     <div className={`z-50 py-8 bg-black border-b border-purple-400 md:px-10 w-full flex fixed top-0 left-0
-    items-center justify-center ${isScrolled && 'shadow-lg shadow-indigo-200/50'}`}>
+    items-center justify-center ${isScrolled && 'shadow-lg shadow-indigo-500/50'}`}>
       <nav className='w-5/6 flex items-center justify-between'>
         <div>
          <Link href={'/'}>
@@ -33,7 +33,7 @@ const Navbar = () => {
         </div>
         <div className="flex justify-around md:space-x-20 space-x-5">
            <Link href={'/products'} className='md:text-sm text-xs text-indigo-100 uppercase font-medium'>Products</Link>
-           <Link href={'/profile'} className='md:text-sm text-xs text-indigo-100 font-medium uppercase'>Profile</Link>
+           <Link href={'/about'} className='md:text-sm text-xs text-indigo-100 font-medium uppercase'>About</Link>
         </div>
       </nav>
     </div>

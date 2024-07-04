@@ -1,4 +1,5 @@
 import HeroSection from "@/components/HeroSection";
+import Newsletter from "@/components/Newsletter";
 import SalesSection from "@/components/SalesSection";
 import Testimonials from "@/components/Testimonials";
 import { ProductType } from "@/types";
@@ -35,6 +36,7 @@ const Home: React.FC<Props> = ({ products }) => {
       <HeroSection />
       <SalesSection products={products} />
       <Testimonials />
+      <Newsletter/>
     </main>
   );
 };
