@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from 'react';
+'use client'
+import React, { useEffect, useState } from 'react';
 
 const testimonials = [
   { user: 'Alex', text: 'Great products and amazing quality! Highly recommend this store.' },
@@ -14,49 +15,65 @@ const testimonials = [
 ];
 
 const Testimonials = () => {
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  let scrollInterval: NodeJS.Timeout | null = null;
-
-  const startScrolling = () => {
-    const scrollContainer = scrollContainerRef.current;
-
-    const scrollStep = () => {
-      if (scrollContainer) {
-        scrollContainer.scrollLeft += 2; // Increase the scroll step for faster scrolling
-        if (scrollContainer.scrollLeft + scrollContainer.clientWidth >= scrollContainer.scrollWidth) {
-          scrollContainer.scrollLeft = 0; // Scroll back to the beginning
-        }
-      }
-    };
-
-    scrollInterval = setInterval(scrollStep, 10); // Adjust the interval as needed (lower value for faster scrolling)
-  };
-
-  const stopScrolling = () => {
-    if (scrollInterval) {
-      clearInterval(scrollInterval);
-      scrollInterval = null;
-    }
-  };
+  const [current, setCurrent] = useState(0);
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
 
   useEffect(() => {
-    startScrolling();
-    return () => stopScrolling();
-  }, []);
+    const updateSize = () => {
+      setIsSmallScreen(window.innerWidth < 640); // Tailwind's sm breakpoint
+    };
 
+    window.addEventListener('resize', updateSize);
+    updateSize(); // Check the screen size on the initial load
+
+    const interval = setInterval(() => {
+      setCurrent((prev) => (prev === testimonials.length - (isSmallScreen ? 1 : 3) ? 0 : prev + 1));
+    }, 4000);
+
+    return () => {
+      window.removeEventListener('resize', updateSize);
+      clearInterval(interval);
+    };
+  }, [isSmallScreen]);
 
   return (
-    <div className='w-full min-h-auto flex items-center justify-center py-10'>
-      <div className='w-5/6'>
-        <h2 className='text-4xl font-bold text-white mb-8 text-center'>Our <span className='text-purple-400'>happy</span> clients</h2>
-        <div ref={scrollContainerRef} 
-        onMouseEnter={stopScrolling}
-        onMouseLeave={startScrolling}
-        className='flex overflow-x-auto space-x-4 pb-6 hide-scrollbar'>
-          {[...testimonials, ...testimonials].map((testimonial, index) => (
-            <div key={index} className='bg-slate-950 border border-indigo-500/50 p-8 rounded-lg shadow-lg min-w-[300px] relative'>
-              <p className='text-gray-300 text-lg mb-3 text-center'>&quot; {testimonial.text} &quot;</p>
-              <p className='text-purple-100 font-bold text-right absolute bottom-3 right-4'>- {testimonial.user}</p>
+    <div className='w-full min-h-auto flex items-center justify-center py-20'>
+      <div className='w-full relative overflow-hidden p-10'>
+        <h2 className='text-4xl font-bold text-white mb-12 text-center'>
+          Our <span className='text-purple-400'>happy</span> clients
+        </h2>
+        <div
+          className='flex transition-transform ease-in-out duration-1000 gap-2 scroll-smooth'
+          style={{ transform: `translateX(-${current * (100 / (isSmallScreen ? 1 : 3))}%)` }}
+        >
+          {testimonials.map((testimonial, index) => (
+            <div
+              key={index}
+              className={`bg-slate-950 border border-indigo-500/50 p-8 rounded-lg shadow-lg ${
+                isSmallScreen ? 'w-full' : 'w-1/3'
+              } flex-shrink-0`}
+            >
+              <p className='text-gray-300 text-lg mb-3 text-center'>
+                &quot; {testimonial.text} &quot;
+              </p>
+              <p className='text-purple-100 font-bold text-right'>
+                - {testimonial.user}
+              </p>
+            </div>
+          ))}
+        </div>
+        <div className='absolute bottom-3 left-1/2 transform -translate-x-1/2 flex gap-4'>
+          {Array.from({ length: Math.ceil(testimonials.length / (isSmallScreen ? 1 : 3)) }).map((_, index) => (
+            <div
+              key={index}
+              className={`w-2 h-2 rounded-full ring-1 ring-gray-300 cursor-pointer flex items-center justify-center ${
+                current === index ? 'scale-150' : ''
+              }`}
+              onClick={() => setCurrent(index)}
+            >
+              {current === index && (
+                <div className='w-[4px] h-[4px] bg-gray-300 rounded-full'></div>
+              )}
             </div>
           ))}
         </div>
